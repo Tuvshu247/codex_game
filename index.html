@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Angry Birdish</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="title-bar">
+    <h1>Angry Birdish</h1>
+    <div class="controls">
+      <button id="reset">Reset (R)</button>
+      <span class="hint">Drag the bird away from the sling post, then release.</span>
+    </div>
+  </header>
+  <main>
+    <canvas id="game" width="960" height="540" aria-label="Angry Birdish playfield"></canvas>
+    <section class="tips">
+      <h2>How to play</h2>
+      <ul>
+        <li>Click or tap the red bird, drag to aim, and release to launch.</li>
+        <li>Hit the green pigs or knock over their blocks to score points.</li>
+        <li>Press <strong>R</strong> or the reset button to start a new round.</li>
+      </ul>
+    </section>
+  </main>
+  <script src="main.js"></script>
+</body>
+</html>
