@@ -1,0 +1,94 @@
+:root {
+  --sky: linear-gradient(#8fd3ff, #e8f7ff);
+  --grass: #7ac74f;
+  --ground: #5b422d;
+  --bird: #d9403f;
+  --pig: #6cbc5c;
+  --block: #b0a48f;
+  --wood: #8b6b42;
+  --sling: #6b4226;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #10212b;
+  color: #0a1620;
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+}
+
+main {
+  width: 960px;
+  padding: 1rem;
+  background: #f5fafc;
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.title-bar {
+  width: 960px;
+  padding: 1rem;
+  background: #f5fafc;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #3a4b57;
+  font-weight: 600;
+}
+
+#reset {
+  background: #0f87ff;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 8px 16px rgba(15, 135, 255, 0.3);
+}
+
+#reset:hover {
+  background: #0c6bc8;
+}
+
+canvas#game {
+  width: 100%;
+  border-radius: 12px;
+  background: var(--sky);
+  border: 2px solid #dfe8ee;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.tips {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: #e9f5ff;
+  border-radius: 8px;
+  color: #1c2b39;
+}
+
+.tips h2 {
+  margin: 0 0 0.5rem;
+}
+
+.tips ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
