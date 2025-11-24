@@ -137,12 +137,6 @@ class Pig {
   }
 }
 
-const hud = {
-  shots: document.getElementById("shots"),
-  pigs: document.getElementById("pigs"),
-  status: document.getElementById("status"),
-};
-
 const state = {
   bird: new Bird(),
   blocks: [],
@@ -150,9 +144,7 @@ const state = {
   dragging: false,
   pointer: { x: 0, y: 0 },
   score: 0,
-  shots: 0,
   won: false,
-  autoResetTimer: 0,
 };
 
 function buildLevel() {
@@ -173,11 +165,8 @@ function buildLevel() {
   ];
 
   state.score = 0;
-  state.shots = 0;
   state.won = false;
-  state.autoResetTimer = 0;
   state.bird.reset();
-  updateHud("Ready to launch");
 }
 
 buildLevel();
@@ -227,7 +216,6 @@ function handleCollisions() {
       if (pig.damage(power)) {
         state.pigs = state.pigs.filter((p) => p !== pig);
         state.score += 150;
-        updateHud("Pig down!");
       }
     }
   }
@@ -285,28 +273,6 @@ function drawUI() {
   }
 }
 
-function drawAimGuide() {
-  if (!state.dragging) return;
-  const samples = 18;
-  const step = 0.08;
-  const startVel = {
-    x: (slingAnchor.x - state.pointer.x) * 3,
-    y: (slingAnchor.y - state.pointer.y) * 3,
-  };
-  let pos = { x: state.bird.pos.x, y: state.bird.pos.y };
-  let vel = { ...startVel };
-
-  ctx.fillStyle = "rgba(0,0,0,0.25)";
-  for (let i = 0; i < samples; i += 1) {
-    vel.y += gravity * step;
-    pos = { x: pos.x + vel.x * step, y: pos.y + vel.y * step };
-    if (pos.y > groundY) break;
-    ctx.beginPath();
-    ctx.arc(pos.x, pos.y, 4, 0, Math.PI * 2);
-    ctx.fill();
-  }
-}
-
 function drawStructures() {
   for (const block of state.blocks) block.draw();
   for (const pig of state.pigs) pig.draw();
@@ -320,19 +286,16 @@ function pointerPosition(evt) {
 }
 
 function startDrag(evt) {
-  evt.preventDefault();
   const pos = pointerPosition(evt);
   const inside = distance(pos, state.bird.pos) <= state.bird.radius + 10;
   if (!state.bird.launched && inside) {
     state.dragging = true;
     state.pointer = pos;
-    updateHud("Pull back and release");
   }
 }
 
 function moveDrag(evt) {
   if (!state.dragging) return;
-  evt.preventDefault();
   const pos = pointerPosition(evt);
   const dx = pos.x - slingAnchor.x;
   const dy = pos.y - slingAnchor.y;
@@ -351,8 +314,6 @@ function endDrag() {
   const dy = slingAnchor.y - state.pointer.y;
   state.dragging = false;
   state.bird.launch({ x: dx * 3, y: dy * 3 });
-  state.shots += 1;
-  updateHud("In flight");
 }
 
 canvas.addEventListener("mousedown", startDrag);
@@ -373,12 +334,6 @@ function resetGame() {
   buildLevel();
 }
 
-function updateHud(statusText) {
-  hud.shots.textContent = `Shots: ${state.shots}`;
-  hud.pigs.textContent = `Pigs: ${state.pigs.length}`;
-  if (statusText) hud.status.textContent = statusText;
-}
-
 let last = 0;
 function loop(timestamp) {
   const dt = Math.min((timestamp - last) / 1000, 0.05);
@@ -387,40 +342,16 @@ function loop(timestamp) {
   state.bird.update(dt);
   handleCollisions();
 
-  if (state.bird.launched && state.bird.restTimer > 1.5) {
-    state.autoResetTimer += dt;
-    if (state.autoResetTimer > 1) {
-      updateHud("Resetting…");
-      resetGame();
-    }
-  } else {
-    state.autoResetTimer = 0;
-  }
-
-  if (
-    !state.won &&
-    state.bird.pos.x > canvas.width + 120 &&
-    Math.abs(state.bird.vel.x) < 10 &&
-    Math.abs(state.bird.vel.y) < 10
-  ) {
-    updateHud("Out of bounds, resetting…");
-    resetGame();
-  }
-
   if (state.pigs.length === 0 && !state.won) {
     state.won = true;
     state.score += 500;
-    updateHud("Victory! Reset to play again");
   }
 
   drawBackground();
   drawSling();
-  drawAimGuide();
   drawStructures();
   state.bird.draw();
   drawUI();
-
-  updateHud();
 
   requestAnimationFrame(loop);
 }

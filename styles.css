@@ -53,19 +53,6 @@ main {
   font-weight: 600;
 }
 
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  background: #e8f1ff;
-  color: #12314f;
-  padding: 0.4rem 0.75rem;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  box-shadow: inset 0 0 0 1px rgba(18, 49, 79, 0.08);
-}
-
 #reset {
   background: #0f87ff;
   border: none;
@@ -95,13 +82,6 @@ canvas#game {
   background: #e9f5ff;
   border-radius: 8px;
   color: #1c2b39;
-}
-
-.metrics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0.75rem 0 0.25rem;
 }
 
 .tips h2 {
